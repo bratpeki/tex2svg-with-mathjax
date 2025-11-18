@@ -1,6 +1,28 @@
 
 = tex2svg, in Node, with MathJax!
 
+== What is it?
+
+tex2svg is a simple Node.js script which takes in TeX math equations via CLI arguments and returns the SVG to the STDOUT.
+The STDOUT can then be piped into SVG files.
+
+== Example usage
+
+Examples are in the link:./Makefile[`Makefile`].
+
+Here's Euler's identity, though!
+
+[source,sh]
+----
+node ./tex2svg.js "e^{i \\pi} + 1 = 0" > euler.svg
+----
+
+== Compilation and usage
+
+No compiling, since it's Node. Just run `npm install` to get MathJax.
+
+For usage, see the link:./Makefile[`Makefile`].
+
 == The Journey!
 
 Initially, I followed
@@ -8,18 +30,22 @@ https://docs.mathjax.org/en/latest/server/main.html#your-first-mathjax-program['
 generating this:
 
 [source,js]
+----
 await MathJax.init({loader: {load: ['input/tex']}});
 const mml = (await MathJax.tex2mmlPromise('x+y'));
 console.log(mml);
+----
 
 This prints the basic MathML:
 
 [source,xml]
+----
 <math xmlns="http://www.w3.org/1998/Math/MathML" data-latex="x+y" display="block">
   <mi data-latex="x">x</mi>
   <mo data-latex="+">+</mo>
   <mi data-latex="y">y</mi>
 </math>
+----
 
 However, I want to generate SVGs, as they're way more globally applicable than MathML.
 
