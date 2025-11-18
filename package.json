@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@mathjax/src": "^4.0.0"
+  }
+}

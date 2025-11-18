@@ -1,1 +1,0 @@
-# tex2svg-with-mathjax
