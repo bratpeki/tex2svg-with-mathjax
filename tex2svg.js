@@ -52,10 +52,14 @@ async function getSvgImage(math, textcolor = "black") {
 		: svg.replace(/^(<svg.*?>)/, `$1<defs><style>${svgCss}</style></defs>`);
 
 	svg = svg.replace(/ (?:role|focusable|aria-hidden)=".*?"/g, '')
-		.replace(/"currentColor"/g, `"${textcolor}"`);
+		.replace(/"currentColor"/g, `"${textcolor}"`)
+		.replace(/ex\b/g, "in"); // Added only so Inkscape can view the SVG, because ex isn't supported on most editors
 
 	return xmlDeclaration + '\n' + svg;
 
 }
 
 console.log(await getSvgImage(args[2]));
+
+// console.log(await getSvgImage(args[2], "white"));
+//                                        dark-mode-friendly ;)
