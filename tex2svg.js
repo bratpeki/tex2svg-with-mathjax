@@ -28,31 +28,31 @@ await MathJax.init({
 MathJax.startup.output.clearFontCache();
 
 const svgCss = [
-	'svg a{fill:blue;stroke:blue}',
-	'[data-mml-node="merror"]>g{fill:red;stroke:red}',
-	'[data-mml-node="merror"]>rect[data-background]{fill:yellow;stroke:none}',
-	'[data-frame],[data-line]{stroke-width:70px;fill:none}',
-	'.mjx-dashed{stroke-dasharray:140}',
-	'.mjx-dotted{stroke-linecap:round;stroke-dasharray:0,140}',
-	'use[data-c]{stroke-width:3px}'
+	'svg a{fill:blue;stroke:blue}', // Makes links blue
+	'[data-mml-node="merror"]>g{fill:red;stroke:red}', // Make TeX errors' text red
+	'[data-mml-node="merror"]>rect[data-background]{fill:yellow;stroke:none}', // Makes TeX errors' background yellow
+	'[data-frame],[data-line]{stroke-width:70px;fill:none}', // Used for framed boxes
+	'.mjx-dashed{stroke-dasharray:140}', // Handles dashed underlines
+	'.mjx-dotted{stroke-linecap:round;stroke-dasharray:0,140}', // Handles dotted underlines
+	'use[data-c]{stroke-width:3px}' // Apparently, used for character glyph references, whatever that means
 ].join('');
 
 const xmlDeclaration = '<?xml version="1.0" encoding="UTF-8" standalone="no"?>';
 
-async function getSvgImage(math, options = {}) {
+async function getSvgImage(math, textcolor = "black") {
 
 	const adaptor = MathJax.startup.adaptor;
-	const result = await MathJax.tex2svgPromise(math, options);
+	const result = await MathJax.tex2svgPromise(math);
 
-	let svgNode = adaptor.tags(result, 'svg')[0];
-	let svg = adaptor.outerHTML(svgNode);
+	let svg = adaptor.tags(result, 'svg')[0];
+	svg = adaptor.outerHTML(svg);
 
 	svg = svg.includes('<defs>')
 		? svg.replace(/<defs>/, `<defs><style>${svgCss}</style>`)
 		: svg.replace(/^(<svg.*?>)/, `$1<defs><style>${svgCss}</style></defs>`);
 
 	svg = svg.replace(/ (?:role|focusable|aria-hidden)=".*?"/g, '')
-		.replace(/"currentColor"/g, '"black"');
+		.replace(/"currentColor"/g, `"${textcolor}"`);
 
 	return xmlDeclaration + '\n' + svg;
 

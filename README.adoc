@@ -3,7 +3,7 @@
 
 == What is it?
 
-tex2svg is a simple Node.js script which takes in TeX math equations via CLI arguments and returns the SVG to the STDOUT.
+`tex2svg` is a simple Node.js script which takes in TeX math equations via CLI arguments and returns the SVG to the STDOUT.
 The STDOUT can then be piped into SVG files.
 
 == Example usage
