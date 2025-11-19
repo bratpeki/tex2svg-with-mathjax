@@ -1,0 +1,35 @@
+
+= tex2svg, in Node, with MathJax!
+
+== The Journey!
+
+Initially, I followed
+https://docs.mathjax.org/en/latest/server/main.html#your-first-mathjax-program['Experimenting with MathJax in Node > Your First MathJax Program'],
+generating this:
+
+[source,js]
+----
+await MathJax.init({loader: {load: ['input/tex']}});
+const mml = (await MathJax.tex2mmlPromise('x+y'));
+console.log(mml);
+----
+
+This prints the basic MathML:
+
+[source,xml]
+----
+<math xmlns="http://www.w3.org/1998/Math/MathML" data-latex="x+y" display="block">
+  <mi data-latex="x">x</mi>
+  <mo data-latex="+">+</mo>
+  <mi data-latex="y">y</mi>
+</math>
+----
+
+However, I want to generate SVGs, as they're way more globally applicable than MathML.
+
+Swapping `tex2mmlPromise` for `tex2svgPromise` yielded `MathJax.tex2svgPromise is not a function`.
+This led to a headache-inducing rabbit hole of reading the docs again.
+I eventually found
+https://docs.mathjax.org/en/v4.0/web/convert.html#creating-stand-alone-svg-images['Creating Stand-Alone SVG Images'],
+adjusted it for Node.js, and got it working.
+
