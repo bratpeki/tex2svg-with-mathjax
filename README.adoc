@@ -25,9 +25,7 @@ For usage, see the link:./Makefile[`Makefile`].
 
 The currently supported flags include:
 
-[cols="1,3"]
 |===
-| `-w`
-| Outputs white text. Black by default.
+| `-w` | Outputs white text. Black by default.
 |===
 
