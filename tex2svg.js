@@ -1,3 +1,4 @@
+
 import MathJax from "@mathjax/src";
 
 import assert from "node:assert";
@@ -6,15 +7,33 @@ const args = process.argv;
 assert(args[0].toLowerCase().includes("node"));
 assert(args[1].toLowerCase().includes("tex2svg"));
 
-if ( args.length < 3 ) {
-	console.error("No math string passed.\nExiting...");
+const helpAndExit = (msg) => {
+	console.error(
+		"tex2svg: " + msg + "\n" +
+		"tex2svg: For example: node ./tex2svg.js \"e^{i \\pi} + 1 = 0\" > euler.svg"
+	);
 	process.exit(1);
+};
+
+let argWhiteText = false;
+let argMath = null;
+
+for ( const a of args.slice(2) ) {
+
+	if ( a === "-w" ) {
+		argWhiteText = true;
+		continue;
+	}
+
+	if ( argMath !== null ) {
+		helpAndExit("Only one formula allowed!");
+	}
+
+	argMath = a;
+
 }
 
-if ( args.length > 3 ) {
-	console.error("Too many math strings passed. We only accept one at a time.\nExiting...");
-	process.exit(1);
-}
+if (!argMath) helpAndExit("No formula passed!");
 
 await MathJax.init({
 	loader: {
@@ -59,7 +78,7 @@ async function getSvgImage(math, textcolor = "black") {
 
 }
 
-console.log(await getSvgImage(args[2]));
-
-// console.log(await getSvgImage(args[2], "white"));
-//                                        dark-mode-friendly ;)
+if ( argWhiteText )
+	console.log(await getSvgImage(argMath, "white"));
+else
+	console.log(await getSvgImage(argMath));
