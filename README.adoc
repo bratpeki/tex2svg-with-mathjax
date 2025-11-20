@@ -23,3 +23,11 @@ No compiling, since it's Node. Just run `npm install` to get MathJax.
 
 For usage, see the link:./Makefile[`Makefile`].
 
+The currently supported flags include:
+
+[cols="1,3"]
+|===
+| `-w`
+| Outputs white text. Black by default.
+|===
+
